@@ -6,18 +6,18 @@
   14 => 'view',
   'app' => 
   array (
-    'name' => 'NombreDeTuApp',
+    'name' => 'RegistroCivilAPP',
     'env' => 'local',
     'debug' => true,
     'url' => 'http://127.0.0.1:8000',
     'frontend_url' => 'http://localhost:3000',
     'asset_url' => NULL,
-    'timezone' => 'UTC',
+    'timezone' => 'America/Lima',
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
     'cipher' => 'AES-256-CBC',
-    'key' => 'base64:zwRFqMyS/bn2ptdDqICI0ivdKKWVlCyGX2g2N5SpSB8=',
+    'key' => '',
     'previous_keys' => 
     array (
     ),
@@ -308,7 +308,7 @@
       'options' => 
       array (
         'cluster' => 'redis',
-        'prefix' => 'nombredetuapp_database_',
+        'prefix' => 'registrocivilapp_database_',
       ),
       'default' => 
       array (
@@ -351,6 +351,9 @@
     'URL_ROLES_GENERATE_MENU_API' => 'http://qa-apiautenticacion.msb.gob.pe/api/home/generate-menu',
     'URL_CHANGE_ROL_API' => 'http://qa-apiautenticacion.msb.gob.pe/api/home/change-rol',
     'URL_EXTENSIONES_METADATOS_API' => 'http://qa-apiautenticacion.msb.gob.pe/api/extensiones-metadatos',
+    'URL_SAVE_AUDITORIA_ENDPOINT_API' => 'http://qa-apiautenticacion.msb.gob.pe/api/auditoria/endpoints/save',
+    'URL_SAVE_AUDITORIA_DML_API' => 'http://qa-apiautenticacion.msb.gob.pe/api/auditoria/dml/save',
+    'URL_SAVE_AUDITORIA_ERROR_API' => 'http://qa-apiautenticacion.msb.gob.pe/api/auditoria/error/save',
   ),
   'environments' => 
   array (
@@ -377,6 +380,9 @@
         'URL_ROLES_GENERATE_MENU_API' => 'http://qa-apiautenticacion.msb.gob.pe/api/home/generate-menu',
         'URL_CHANGE_ROL_API' => 'http://qa-apiautenticacion.msb.gob.pe/api/home/change-rol',
         'URL_EXTENSIONES_METADATOS_API' => 'http://qa-apiautenticacion.msb.gob.pe/api/extensiones-metadatos',
+        'URL_SAVE_AUDITORIA_ENDPOINT_API' => 'http://qa-apiautenticacion.msb.gob.pe/api/auditoria/endpoints/save',
+        'URL_SAVE_AUDITORIA_DML_API' => 'http://qa-apiautenticacion.msb.gob.pe/api/auditoria/dml/save',
+        'URL_SAVE_AUDITORIA_ERROR_API' => 'http://qa-apiautenticacion.msb.gob.pe/api/auditoria/error/save',
       ),
       'prod' => 
       array (
@@ -399,6 +405,9 @@
         'URL_ROLES_GENERATE_MENU_API' => 'https://apiautenticacion.msb.gob.pe/api/home/generate-menu',
         'URL_CHANGE_ROL_API' => 'https://apiautenticacion.msb.gob.pe/api/home/change-rol',
         'URL_EXTENSIONES_METADATOS_API' => 'https://apiautenticacion.msb.gob.pe/api/extensiones-metadatos',
+        'URL_SAVE_AUDITORIA_ENDPOINT_API' => 'https://apiautenticacion.msb.gob.pe/api/auditoria/endpoints/save',
+        'URL_SAVE_AUDITORIA_DML_API' => 'https://apiautenticacion.msb.gob.pe/api/auditoria/dml/save',
+        'URL_SAVE_AUDITORIA_ERROR_API' => 'https://apiautenticacion.msb.gob.pe/api/auditoria/error/save',
       ),
       'qa' => 
       array (
@@ -421,6 +430,9 @@
         'URL_ROLES_GENERATE_MENU_API' => 'http://qa-apiautenticacion.msb.gob.pe/api/home/generate-menu',
         'URL_CHANGE_ROL_API' => 'http://qa-apiautenticacion.msb.gob.pe/api/home/change-rol',
         'URL_EXTENSIONES_METADATOS_API' => 'http://qa-apiautenticacion.msb.gob.pe/api/extensiones-metadatos',
+        'URL_SAVE_AUDITORIA_ENDPOINT_API' => 'http://qa-apiautenticacion.msb.gob.pe/api/auditoria/endpoints/save',
+        'URL_SAVE_AUDITORIA_DML_API' => 'http://qa-apiautenticacion.msb.gob.pe/api/auditoria/dml/save',
+        'URL_SAVE_AUDITORIA_ERROR_API' => 'http://qa-apiautenticacion.msb.gob.pe/api/auditoria/error/save',
       ),
     ),
   ),
@@ -480,6 +492,10 @@
           0 => 'single',
         ),
         'ignore_exceptions' => false,
+        'tap' => 
+        array (
+          0 => 'App\\Taps\\LogToDatabaseTap',
+        ),
       ),
       'single' => 
       array (
@@ -625,7 +641,7 @@
     'from' => 
     array (
       'address' => 'hello@example.com',
-      'name' => 'NombreDeTuApp',
+      'name' => 'RegistroCivilAPP',
     ),
     'markdown' => 
     array (
@@ -638,7 +654,7 @@
   ),
   'queue' => 
   array (
-    'default' => 'database',
+    'default' => 'sync',
     'connections' => 
     array (
       'sync' => 
@@ -760,7 +776,7 @@
       0 => 2,
       1 => 100,
     ),
-    'cookie' => 'nombredetuapp_session',
+    'cookie' => 'registrocivilapp_session',
     'path' => '/',
     'domain' => NULL,
     'secure' => NULL,

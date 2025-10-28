@@ -25,7 +25,6 @@ class RecaptchaService
         ];
 
         $responseData = $this->httpService->sendRequest('post', $this->verify_url, $params, null);
-        log_info($responseData);
 
         return $responseData['success'] ?? false;
     }

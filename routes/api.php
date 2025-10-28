@@ -13,6 +13,7 @@ use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\FirmaController;
+use App\Http\Middleware\AuditoriaEndpoint;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -42,20 +43,20 @@ Route::middleware(JWTAuthentication::class)->prefix('registro')->group(function 
     Route::post('/list-dep', [RegistroController::class, 'list_dep']);
     Route::post('/list-prov', [RegistroController::class, 'list_prov']);
     Route::post('/list-dist', [RegistroController::class, 'list_dist']);
-    Route::post('/guardar-matrimonio', [RegistroController::class, 'guardar_matrimonio']);
+    Route::post('/guardar-matrimonio', [RegistroController::class, 'guardar_matrimonio'])->middleware([JWTAuthentication::class, AuditoriaEndpoint::class]);
     Route::post('/consultar-matrimonio', [RegistroController::class, 'consultar_matrimonio']);
-    Route::post('/cerrar-proceso', [RegistroController::class, 'cerrar_proceso']);
+    Route::post('/cerrar-proceso', [RegistroController::class, 'cerrar_proceso'])->middleware([JWTAuthentication::class, AuditoriaEndpoint::class]);
     Route::post('/estado-listado', [RegistroController::class, 'estado_listado']);
     Route::post('/buscar-departamentos', [RegistroController::class, 'buscar_departamentos']);
     Route::post('/buscar-provincias', [RegistroController::class, 'buscar_provincias']);
     Route::post('/buscar-distritos', [RegistroController::class, 'buscar_distritos']);
-    Route::post('/grabar-departamentos', [RegistroController::class, 'grabar_departamentos']);
-    Route::post('/grabar-provincias', [RegistroController::class, 'grabar_provincias']);
-    Route::post('/grabar-distritos', [RegistroController::class, 'grabar_distritos']);
+    Route::post('/grabar-departamentos', [RegistroController::class, 'grabar_departamentos'])->middleware([JWTAuthentication::class, AuditoriaEndpoint::class]);
+    Route::post('/grabar-provincias', [RegistroController::class, 'grabar_provincias'])->middleware([JWTAuthentication::class, AuditoriaEndpoint::class]);
+    Route::post('/grabar-distritos', [RegistroController::class, 'grabar_distritos'])->middleware([JWTAuthentication::class, AuditoriaEndpoint::class]);
     Route::post('/select-celebrante', [RegistroController::class, 'select_celebrante']);
-    Route::post('/guardar-celebrante', [RegistroController::class, 'guardar_celebrante']);
+    Route::post('/guardar-celebrante', [RegistroController::class, 'guardar_celebrante'])->middleware([JWTAuthentication::class, AuditoriaEndpoint::class]);
     Route::post('/buscar-celebrante', [RegistroController::class, 'buscar_celebrante']);
-    Route::post('/save-firma', [RegistroController::class, 'guardar_firma']);
+    Route::post('/save-firma', [RegistroController::class, 'guardar_firma'])->middleware([JWTAuthentication::class, AuditoriaEndpoint::class]);
 });
 // GENERADOR DE PDF
 Route::prefix('pdf')->group(function () {

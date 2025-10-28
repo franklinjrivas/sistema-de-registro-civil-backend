@@ -13,43 +13,27 @@ class FirmaService
 {
     public function guardar_firma(UploadedFile $file)
     {
-        try {
-
-            log_info('guardar_firma_service');
-            log_info($file);
-
-            if (!$file) {
-                throw new \Exception('No se permiten archivos vacíos');
-            }
-
-            // Carpeta de destino dentro de "public"
-            $ruta = public_path('img/firma');
-
-            // Crear carpeta si no existe
-            if (!file_exists($ruta)) {
-                mkdir($ruta, 0755, true);
-            }
-
-            // Nombre fijo del archivo
-            $nombreArchivo = '1.png';
-
-            // Mover y reemplazar si ya existe
-            $file->move($ruta, $nombreArchivo);
-
-            // Retornar la URL accesible públicamente
-            $url = asset('img/firma/' . $nombreArchivo);
-
-            return response()->json([
-                'success' => true,
-                'mensaje' => 'Firma guardada correctamente',
-                'url' => $url
-            ]);
-        } catch (\Throwable $e) {
-            return response()->json([
-                'success' => false,
-                'mensaje' => $e->getMessage()
-            ]);
+        if (!$file) {
+            throw new \Exception('No se permiten archivos vacíos');
         }
+        // Carpeta de destino dentro de "public"
+        $ruta = public_path('img/firma');
+        // Crear carpeta si no existe
+        if (!file_exists($ruta)) {
+            mkdir($ruta, 0755, true);
+        }
+        // Nombre fijo del archivo
+        $nombreArchivo = '1.png';
+        // Mover y reemplazar si ya existe
+        $file->move($ruta, $nombreArchivo);
+        // Retornar la URL accesible públicamente
+        $url = asset('img/firma/' . $nombreArchivo);
+
+        return response()->json([
+            'success' => true,
+            'mensaje' => 'Firma guardada correctamente',
+            'url' => $url
+        ]);
     }
 
 }

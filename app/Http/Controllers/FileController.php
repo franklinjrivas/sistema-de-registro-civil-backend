@@ -17,15 +17,8 @@ class FileController extends Controller
 
     public function extesiones_metadatos(Request $request)
     {
-        try {
-            $data = $this->filesService->extesiones_metadatos();
+        $data = $this->filesService->extesiones_metadatos();
 
-            return response()->json($data);
-        } catch (\Throwable $e) {
-            return response()->json([
-                'success' => false,
-                'mensaje' => $e->getMessage()
-            ]);
-        }
+        return response()->json($data);
     }
 }

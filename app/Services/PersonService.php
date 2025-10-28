@@ -25,38 +25,33 @@ class PersonService
         $desde = $fechadesde ? fechaJuliana(Carbon::create($fechadesde)) : null;
         $hasta = $fechahasta ? fechaJuliana(Carbon::create($fechahasta)) : null;
 
-        try {
-            ini_set('memory_limit', '2048M');
-            $item_x_page = $item_x_page ?? 10;
-            $result = DB::select(
-                'EXEC dbo.regcivil_listar_partida_matrimonial_2 ?, ?, ?, ?, ?, ?, ?, ?, ?, ?',
-                [$exp, $anio, $doc, $nombre,  $desde,  $hasta, $estado, $page, $item_x_page, true]
-            );
+        ini_set('memory_limit', '2048M');
+        $item_x_page = $item_x_page ?? 10;
+        $result = DB::select(
+            'EXEC dbo.regcivil_listar_partida_matrimonial_2 ?, ?, ?, ?, ?, ?, ?, ?, ?, ?',
+            [$exp, $anio, $doc, $nombre,  $desde,  $hasta, $estado, $page, $item_x_page, true]
+        );
 
-            if ($formato == 'pdf') {
-                $param = [
-                    'data' => $result,
-                    'desde' => Carbon::create($fechadesde)->format('d/m/Y'),
-                    'hasta' => Carbon::create($fechahasta)->format('d/m/Y'),
-                ];
-                $pdf = PDF::loadView('plantillas-pdf.reporte', $param)->setPaper('a4', 'landscape');
-                $content = $pdf->output();
-                $base64 = base64_encode($content);
-                return $base64;
-            }
-
-            $totalResultados = DB::select(
-                'EXEC dbo.regcivil_total_partida_matrimonial ?, ?, ?, ?, ?, ?, ?',
-                [$exp, $anio, $doc, $nombre,  $desde,  $hasta, $estado]
-            );
-            return [
+        if ($formato == 'pdf') {
+            $param = [
                 'data' => $result,
-                'total' => (int)$totalResultados[0]->total,
-                'item_x_page' => $item_x_page
+                'desde' => Carbon::create($fechadesde)->format('d/m/Y'),
+                'hasta' => Carbon::create($fechahasta)->format('d/m/Y'),
             ];
-        } catch (\Throwable $e) {
-            Log::info($e->getMessage());
-            throw new \Exception('Error inesperado');
+            $pdf = PDF::loadView('plantillas-pdf.reporte', $param)->setPaper('a4', 'landscape');
+            $content = $pdf->output();
+            $base64 = base64_encode($content);
+            return $base64;
         }
+
+        $totalResultados = DB::select(
+            'EXEC dbo.regcivil_total_partida_matrimonial ?, ?, ?, ?, ?, ?, ?',
+            [$exp, $anio, $doc, $nombre,  $desde,  $hasta, $estado]
+        );
+        return [
+            'data' => $result,
+            'total' => (int)$totalResultados[0]->total,
+            'item_x_page' => $item_x_page
+        ];
     }
 }

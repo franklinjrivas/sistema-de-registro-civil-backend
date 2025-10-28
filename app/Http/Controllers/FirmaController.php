@@ -16,21 +16,13 @@ class FirmaController extends Controller
     private UploadedFile $firma;
     public function guardar_firma(Request $request)
     {
-        try {
+        $this->firma =  $request->file('firma');
 
-            $this->firma =  $request->file('firma');
-
-            $guardado = $this->firmaService->guardar_firma( $this->firma);
-            return response()->json([
-                'success' => true,
-                'mensaje' => 'Datos obtenidos con éxito',
-                'data' => $guardado
-            ]);
-        } catch (\Throwable $e) {
-            return response()->json([
-                'success' => false,
-                'mensaje' => $e->getMessage()
-            ]);
-        }
+        $guardado = $this->firmaService->guardar_firma( $this->firma);
+        return response()->json([
+            'success' => true,
+            'mensaje' => 'Datos obtenidos con éxito',
+            'data' => $guardado
+        ]);
     }
 }

@@ -1,21 +1,12 @@
 <?php
-<<<<<<< HEAD
     $APP_URL = 'https://apiregistrocivil.msb.gob.pe';
     $URL_FRONTEND = 'https://registrocivil.msb.gob.pe';
-=======
-    $APP_URL = 'https://apituapp.msb.gob.pe';
-    $URL_FRONTEND = 'https://tuapp.msb.gob.pe';
->>>>>>> c24c53149c369447608b1a2d54bf721b20c1ae9a
     $HOST_INTRANET_MSB = 'https://intranet.msb.gob.pe';
     $HOST_EXTRANET_MSB = 'https://extranet.msb.gob.pe';
     $BASE_URL_AUTH = 'https://apiautenticacion.msb.gob.pe';
 
     return [
-<<<<<<< HEAD
         'SISTEMA_MSB' => 'SISRC',
-=======
-        'SISTEMA_MSB' => '',
->>>>>>> c24c53149c369447608b1a2d54bf721b20c1ae9a
         'APP_URL' => $APP_URL,
         'URL_FRONTEND' => $URL_FRONTEND,
         'HOST_INTRANET_MSB' => $HOST_INTRANET_MSB,
@@ -24,11 +15,7 @@
         'USER_BASIC_AUTH' => '4UTH3NT1C4C10N@MSB*2024_',
         'PWD_BASIC_AUTH' => '*mUnC!:SOH251MzX@nkU9Ann3',
         'GOOGLE_RECAPTCHA_VERIFY_URL' => 'https://www.google.com/recaptcha/api/siteverify',
-<<<<<<< HEAD
         'GOOGLE_RECAPTCHA_KEY_PRIVATE' => '6LcmzYcrAAAAACEcwAYFTmbPb_B6ZpBsnp8_dkXS',
-=======
-        'GOOGLE_RECAPTCHA_KEY_PRIVATE' => '',
->>>>>>> c24c53149c369447608b1a2d54bf721b20c1ae9a
         'MIN_SCORE_RECAPTCHA' => 0.5,
 
         // AUTH
@@ -44,4 +31,9 @@
 
         // FILE
         'URL_EXTENSIONES_METADATOS_API' => $BASE_URL_AUTH.'/api/extensiones-metadatos',
+
+        // LOGS
+        'URL_SAVE_AUDITORIA_ENDPOINT_API' => $BASE_URL_AUTH.'/api/auditoria/endpoints/save',
+        'URL_SAVE_AUDITORIA_DML_API' => $BASE_URL_AUTH.'/api/auditoria/dml/save',
+        'URL_SAVE_AUDITORIA_ERROR_API' => $BASE_URL_AUTH.'/api/auditoria/error/save',
     ];
