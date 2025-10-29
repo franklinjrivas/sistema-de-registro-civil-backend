@@ -56,7 +56,7 @@ Route::middleware(JWTAuthentication::class)->prefix('registro')->group(function 
     Route::post('/select-celebrante', [RegistroController::class, 'select_celebrante']);
     Route::post('/guardar-celebrante', [RegistroController::class, 'guardar_celebrante'])->middleware([JWTAuthentication::class, AuditoriaEndpoint::class]);
     Route::post('/buscar-celebrante', [RegistroController::class, 'buscar_celebrante']);
-    Route::post('/save-firma', [RegistroController::class, 'guardar_firma'])->middleware([JWTAuthentication::class, AuditoriaEndpoint::class]);
+    Route::post('/save-firma', [RegistroController::class, 'guardar_firma']);
 });
 // GENERADOR DE PDF
 Route::prefix('pdf')->group(function () {

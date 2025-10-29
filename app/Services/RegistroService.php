@@ -10,6 +10,10 @@ use Carbon\Carbon;
 use DateTime as GlobalDateTime;
 use DateTimeZone as GlobalDateTimeZone;
 use App\Models\Departamentos;
+use App\Models\Provincias;
+use App\Models\Distritos;
+use App\Models\Matrimonios;
+use App\Models\Celebrantes;
 
 class RegistroService
 {
@@ -70,11 +74,10 @@ class RegistroService
             'exec dbo.rec_sp_grabar_departamento ?',
             [$dato]
         );
-
-        $modelo = Departamentos::where('CO_DPTO', Departamentos::max('CO_DPTO'))->first();
-
-        $this->auditoriaSistemaService->save_log_auditoria_dml(null, $modelo, null, 'I');
-
+        if (!empty($data) && !empty($data[0]) && $data[0]->SUCCESS == '1') {
+            $modelo = Departamentos::where('CO_DPTO', Departamentos::max('CO_DPTO'))->first();
+            $this->auditoriaSistemaService->save_log_auditoria_dml(null, $modelo, null, 'I');
+        }
         return [
             'dep' => $data,
         ];
@@ -86,6 +89,10 @@ class RegistroService
             'exec dbo.rec_sp_grabar_provincia ?,?',
             [$dato, $id]
         );
+        if (!empty($data) && !empty($data[0]) && $data[0]->SUCCESS == '1') {
+            $modelo = Provincias::where('CO_DPTO', $id)->orderByDesc('CO_PROV')->first();
+            $this->auditoriaSistemaService->save_log_auditoria_dml(null, $modelo, null, 'I');
+        }
         return [
             'pro' => $data,
         ];
@@ -97,6 +104,10 @@ class RegistroService
             'exec dbo.rec_sp_grabar_distrito ?,?',
             [$dato, $id]
         );
+        if (!empty($data) && !empty($data[0]) && $data[0]->SUCCESS == '1') {
+            $modelo = Distritos::where('CO_PROV', $id)->orderByDesc('CO_DIST')->first();
+            $this->auditoriaSistemaService->save_log_auditoria_dml(null, $modelo, null, 'I');
+        }
         return [
             'dis' => $data,
         ];
@@ -124,6 +135,15 @@ class RegistroService
             'exec dbo.rec_sp_guardar_celebrante ?,?,?,?,?,?,?,?',
             [$datos["parameter"]["codigo"], $datos["parameter"]["apepcel"], $datos["parameter"]["apemcel"], $datos["parameter"]["celebrante"], $datos["parameter"]["cargocel"], fechaJuliana(Carbon::create(date('d-m-Y'))), null,  $datos["JWT_username"]]
         );
+        $opcion = $data[0]->success == '1' ? 'I' : 'U';
+        if (!empty($data) && !empty($data[0])) {
+            if ($data[0]->success == '1') {
+                $modelo = Celebrantes::orderByDesc('CO_TABL')->first();
+            } else {
+                $modelo = Celebrantes::where('CO_TABL', $datos["parameter"]["codigo"])->first();
+            }
+            $this->auditoriaSistemaService->save_log_auditoria_dml(null, $modelo, null, $opcion);
+        }
         return [
             'celebrantes' => $data,
         ];
@@ -243,6 +263,14 @@ class RegistroService
 
         if ($data[0]->success !== '1') validationError($data[0]->mensaje);
 
+        if (!empty($data) && !empty($data[0])) {
+            if ($data[0]->dml == 'I') {
+                $modelo = Matrimonios::orderByDesc('ID')->first();
+            } else if ($data[0]->dml == 'U') {
+                $modelo = Matrimonios::where('ID', $info["id"])->first();
+            }
+            $this->auditoriaSistemaService->save_log_auditoria_dml(null, $modelo, null, $data[0]->dml);
+        }
         return [
             'respuesta' => $data,
         ];

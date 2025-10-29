@@ -44,13 +44,13 @@ class AuditoriaSistemaService
     public function save_log_auditoria_dml(?Model $modelo_before, ?Model $modelo_after, ?array $where_clause, string $action): array
     {
         if (!$modelo_before && !$modelo_after) {
-            throw new \Exception('Error en el proceso de Auditoría');
+            validationError('Error en el proceso de Auditoría');
         }
 
         $jwtToken = request()->JWT_token ?? null;
 
         if (!$jwtToken) {
-            throw new \Exception('Token de autenticación no proporcionado.');
+            validationError('Token de autenticación no proporcionado.');
         }
 
         $headers = $this->httpService->bearer_header($jwtToken);
@@ -58,14 +58,14 @@ class AuditoriaSistemaService
         $action = strtoupper($action);
 
         if (!in_array($action, $this->accionesPermitidas, true)) {
-            throw new \Exception("Acción no válida: {$action}");
+            validationError("Acción no válida: {$action}");
         }
 
         $modeloBase = $modelo_before ?? $modelo_after;
         [$schema, $table] = $this->getSchemaTable($modeloBase);
 
         if (!$table) {
-            throw new \Exception('No se pudo determinar la tabla asociada al modelo.');
+            validationError('No se pudo determinar la tabla asociada al modelo.');
         }
 
         $connection = $modeloBase->getConnection();
